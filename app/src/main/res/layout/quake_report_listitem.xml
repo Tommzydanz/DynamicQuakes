@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/quake_report_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="96dp"
+        android:textColor="@android:color/black"
+        tools:text="M 4.3 - 13 km WSW of Yacuiba, Bolivia"
+        tools:textSize="18sp"
+        tools:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/quake_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="96dp"
+        android:layout_below="@id/quake_report_title"
+        android:layout_marginBottom="8dp"
+        tools:text="Nov, 26th, 2019 4:37 pm "
+        tools:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/quake_magnitude"
+        android:layout_width="68dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_toEndOf="@id/quake_date"
+        android:elegantTextHeight="true"
+        android:textAlignment="gravity"
+        android:textSize="24sp"
+        app:drawableStartCompat="@drawable/ic_baseline_star_24"
+        tools:text="4.4" />
+</RelativeLayout>
