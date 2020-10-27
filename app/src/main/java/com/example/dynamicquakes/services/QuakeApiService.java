@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.net.URL;
 import java.security.cert.CertPathBuilder;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,17 +19,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuakeApiService {
 
+    private static final String URL = "https://earthquake.usgs.gov/";
+
     private Retrofit retrofit;
     private static QuakeApiService quakeApiService;
-    OkHttpClient.Builder okHttpClient;
+    OkHttpClient.Builder okHttPClient;
 
 
 
     private QuakeApiService(){
 
-        okHttpClient = new OkHttpClient.Builder().readTimeout(2, TimeUnit.MINUTES);
+        okHttPClient = new OkHttpClient.Builder().readTimeout(1000, TimeUnit.MINUTES);
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://earthquake.usgs.gov/earthquakes/feed/v1.0/")
+                .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

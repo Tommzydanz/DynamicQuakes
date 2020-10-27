@@ -3,6 +3,7 @@ package com.example.dynamicquakes;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +31,7 @@ import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 
 
@@ -58,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.quake_report_list);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+            DividerItemDecoration horizontalDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+            Drawable horizontalDivider = ContextCompat.getDrawable(this, R.drawable.divider);
+            assert horizontalDivider != null;
+            horizontalDecoration.setDrawable(horizontalDivider);
+            recyclerView.addItemDecoration(horizontalDecoration);
             recyclerView.setAdapter(quakeRecyclerAdapter);
 
 
@@ -68,18 +80,19 @@ public class MainActivity extends AppCompatActivity {
             quakeModelCall.enqueue(new Callback<QuakeModel>() {
                 @Override
                 public void onResponse(Call<QuakeModel> call, Response<QuakeModel> response) {
-                    progressBar.setVisibility(View.GONE);
-                    textView.setVisibility(View.GONE);
-
-                    Feature feature = new Feature(properties);
-
-                    QuakeModel quakeModel = response.body();
-                    assert quakeModel != null;
-                    quakeModel.getQuakeFeatures().add(feature);
-                    quakeRecyclerAdapter.notifyDataSetChanged();
-
+                    if(response.isSuccessful()) {
+                        QuakeModel quakeModel = response.body();
+                        assert quakeModel != null;
+                        quakeRecyclerAdapter.setFeatures(quakeModel.getQuakeFeatures());
+                        progressBar.setVisibility(View.GONE);
+                        textView.setTransitionVisibility(View.GONE);
+                    }else{
+                        Toast.makeText(context, "Network Connection error, try Again", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.VISIBLE);
+                        textView.setText(R.string.network_connection_failed);
+                        textView.setTransitionVisibility(View.VISIBLE);
+                    }
                 }
-
                 @Override
                 public void onFailure(Call<QuakeModel> call, Throwable t) {
                     Toast.makeText(context, "Unable to connect to server", Toast.LENGTH_SHORT).show();

@@ -20,4 +20,8 @@ public class QuakeModel {
     public List<Feature> getQuakeFeatures() {
         return features;
     }
+
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
 }

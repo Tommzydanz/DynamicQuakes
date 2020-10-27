@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DynamicQuakes</string>
+    <string name="network_connection_failed">Check your data connection!</string>
+    <string name="dynamic">Dynamic</string>
+    <string name="quakes">Quakes</string>
+    <string name="loading">\tLoading \n\tplease wait...</string>
+    <string name="splash_image">splash Image</string>
 </resources>
